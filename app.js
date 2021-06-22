@@ -10,8 +10,6 @@ const session = require('koa-session');
 const passport = require('koa-passport');
 const passportConfig = require('./config/passport.js');
 
-passportConfig(passport);
-
 app.use(views('views', {
     root: __dirname + '/views',
     default: 'ejs'
@@ -43,6 +41,8 @@ app.use(loginRouter.routes(), loginRouter.allowedMethods());
 app.use(logoutRouter.routes(), logoutRouter.allowedMethods());
 app.use(registerRouter.routes(), registerRouter.allowedMethods());
 app.use(usersRouter.routes(), usersRouter.allowedMethods());
+
+passportConfig(passport);
 
 app.listen(4000, () => {
   console.log('Koa server is listening to port 4000');
