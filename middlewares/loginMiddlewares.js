@@ -1,8 +1,8 @@
-exports.isLoggedIn = (ctx, next) => {
+exports.isLoggedIn = async (ctx, next) => {
     console.log('isLoggedIn 호출됨');
 
     if (ctx.isAuthenticated()) {
-        next();
+        await next();
     }
     else {
         console.log('로그인이 필요합니다.');
@@ -10,14 +10,15 @@ exports.isLoggedIn = (ctx, next) => {
     }
 };
 
-exports.isNotLoggedIn = (ctx, next) => {
+exports.isNotLoggedIn = async (ctx, next) => {
     console.log('isNotLoggedIn 호출됨');
 
     if (!ctx.isAuthenticated()) {
-        next();
+        console.log('로그인 안됨')
+        await next();
     }
     else {
-        console('이미 로그인된 상태입니다.')
+        console.log('이미 로그인된 상태입니다.')
         ctx.redirect('/');
     }
 };
