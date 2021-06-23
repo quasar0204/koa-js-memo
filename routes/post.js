@@ -1,10 +1,11 @@
 const Router = require('koa-router');
-const { User, Post } = require('../database/models');
+const { User, Post, Comment } = require('../database/models');
 const router = new Router();
 const { isLoggedIn } = require('../middlewares/loginMiddlewares');
 const { PostAuth } = require('../middlewares/authMiddlewares');
 
-//전체 메모 리스트 조회
+//전체 메모 리스트 조회 페이지네이션 미적용
+/*
 router.get('/post', async (ctx) => {
     let posts = await Post.findAll({
         order: [
@@ -13,6 +14,34 @@ router.get('/post', async (ctx) => {
         ],
         attributes: ['id', 'title', 'content', 'userId']
     });
+
+    console.dir(posts);
+
+    if (!posts || posts.length == 0) {
+        ctx.status = 404;
+        ctx.body = {
+            message: '작성된 글이 없습니다.'
+        };
+        return;
+    }
+
+    ctx.body = posts;
+});
+*/
+
+//메모 조회 페이지네이션
+router.get('/post', async (ctx) => {
+    let posts = await Post.findAll({
+        order: [
+            ['createdAt', ctx.query.sort ? ctx.query.sort : 'ASC'],
+            ['id', 'DESC']
+        ],
+        limit: ctx.query.limit ? parseInt(ctx.query.limit) : null,
+        offset: ctx.query.offset ? parseInt(ctx.query.offset) : 0,
+        attributes: ['id', 'title', 'content', 'userId']
+    });
+
+    console.dir(posts);
 
     if (!posts || posts.length == 0) {
         ctx.status = 404;
@@ -29,7 +58,15 @@ router.get('/post', async (ctx) => {
 router.get('/post/:id', isLoggedIn, async (ctx) => {
     let post = await Post.findOne({
         where: {id: ctx.params.id},
-        attributes: ['id', 'title', 'content']
+        attributes: ['id', 'title', 'content'],
+        include: {
+            model: Comment,
+            where: {postId: ctx.params.id},
+            attributes: ['userId', 'content'],
+            order: [
+                ['createdAt', 'ASC']
+            ]
+        }
     });
 
     if (!post) {
