@@ -12,6 +12,12 @@
 npm install
 ```
 
+이후 app.js 를 실행해주세요
+
+```js
+nodemon app.js
+```
+
 - API의 설명은 다음 링크에서 확인할 수 있습니다.
 
 - https://documenter.getpostman.com/view/16261564/TzecC571
