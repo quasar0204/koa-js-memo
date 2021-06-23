@@ -37,12 +37,14 @@ const logoutRouter = require('./routes/logout');
 const registerRouter = require('./routes/register');
 const usersRouter = require('./routes/users');
 const postRouter = require('./routes/post');
+const commentRouter = require('./routes/comment')
 
 app.use(loginRouter.routes(), loginRouter.allowedMethods());
 app.use(logoutRouter.routes(), logoutRouter.allowedMethods());
 app.use(registerRouter.routes(), registerRouter.allowedMethods());
 app.use(usersRouter.routes(), usersRouter.allowedMethods());
 app.use(postRouter.routes(), postRouter.allowedMethods());
+app.use(commentRouter.routes(), commentRouter.allowedMethods());
 
 passportConfig(passport);
 
