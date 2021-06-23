@@ -14,7 +14,8 @@ router.post('/login', isNotLoggedIn, async (ctx) => {
 
     return passport.authenticate('local', async function(err, user, info, status) {
         if (user) {
-            return await ctx.login(user);
+            await ctx.login(user);
+            return ctx.redirect('/post');
         } else {
             return ctx.redirect('/login');
         }

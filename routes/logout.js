@@ -8,7 +8,7 @@ const { isLoggedIn, isNotLoggedIn } = require('../middlewares/loginMiddlewares')
 router.post('/logout', async (ctx) => {
     ctx.logout();
     ctx.session = null;
-    ctx.redirect('/login');
+    return ctx.redirect('/login');
 })
 
 module.exports = router;
