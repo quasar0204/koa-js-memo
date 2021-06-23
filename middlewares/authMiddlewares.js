@@ -19,7 +19,6 @@ exports.PostAuth = async (ctx, next) => {
 };
 
 exports.CommentAuth = async (ctx, next) => {
-    console.log('params', ctx.params);
     let comment = await Comment.findOne({ where: {id: ctx.params.commentId} });
     
     if (!comment) {
