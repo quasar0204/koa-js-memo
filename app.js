@@ -36,16 +36,18 @@ const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const registerRouter = require('./routes/register');
 const usersRouter = require('./routes/users');
+const postRouter = require('./routes/post');
 
 app.use(loginRouter.routes(), loginRouter.allowedMethods());
 app.use(logoutRouter.routes(), logoutRouter.allowedMethods());
 app.use(registerRouter.routes(), registerRouter.allowedMethods());
 app.use(usersRouter.routes(), usersRouter.allowedMethods());
+app.use(postRouter.routes(), postRouter.allowedMethods());
 
 passportConfig(passport);
 
-app.listen(4000, () => {
-  console.log('Koa server is listening to port 4000');
+app.listen(3000, () => {
+  console.log('Koa server is listening to port 3000');
 });
 
 module.exports = app;
