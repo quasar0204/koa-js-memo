@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const { User, Post } = require('../database/models');
+const { User, Post, Comment } = require('../database/models');
 const router = new Router();
 const { isLoggedIn } = require('../middlewares/loginMiddlewares');
 const { PostAuth } = require('../middlewares/authMiddlewares');
@@ -13,6 +13,8 @@ router.get('/post', async (ctx) => {
         ],
         attributes: ['id', 'title', 'content', 'userId']
     });
+
+    console.dir(posts);
 
     if (!posts || posts.length == 0) {
         ctx.status = 404;
@@ -29,7 +31,15 @@ router.get('/post', async (ctx) => {
 router.get('/post/:id', isLoggedIn, async (ctx) => {
     let post = await Post.findOne({
         where: {id: ctx.params.id},
-        attributes: ['id', 'title', 'content']
+        attributes: ['id', 'title', 'content'],
+        include: {
+            model: Comment,
+            where: {postId: ctx.params.id},
+            attributes: ['userId', 'content'],
+            order: [
+                ['createdAt', 'ASC']
+            ]
+        }
     });
 
     if (!post) {
