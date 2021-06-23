@@ -31,18 +31,15 @@ app.use(json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// routes 폴더 내에 있는거 등록하게 리펙토링 예정
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const registerRouter = require('./routes/register');
-const usersRouter = require('./routes/users');
 const postRouter = require('./routes/post');
 const commentRouter = require('./routes/comment')
 
 app.use(loginRouter.routes(), loginRouter.allowedMethods());
 app.use(logoutRouter.routes(), logoutRouter.allowedMethods());
 app.use(registerRouter.routes(), registerRouter.allowedMethods());
-app.use(usersRouter.routes(), usersRouter.allowedMethods());
 app.use(postRouter.routes(), postRouter.allowedMethods());
 app.use(commentRouter.routes(), commentRouter.allowedMethods());
 
