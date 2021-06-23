@@ -18,7 +18,7 @@ router.post('/register', async (ctx) => {
 
     if (isExUser) {
         console.log('이미 가입된 이메일입니다.');
-        return ctx.redirect('/auth/register');
+        return ctx.redirect('/register');
     }
 
     const hash = await bcrypt.hash(password, 15);
@@ -31,7 +31,7 @@ router.post('/register', async (ctx) => {
     console.log(email, nick, password, hash);
     console.log('회원가입 성공');
 
-    return ctx.redirect('/');
+    return ctx.redirect('/login');
 })
 
 module.exports = router;
