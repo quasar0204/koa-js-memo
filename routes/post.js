@@ -4,13 +4,15 @@ const router = new Router();
 const { isLoggedIn } = require('../middlewares/loginMiddlewares');
 const { PostAuth } = require('../middlewares/authMiddlewares');
 
-//전체 메모 리스트 조회
+//전체 메모 조회 페이지네이션
 router.get('/post', async (ctx) => {
     let posts = await Post.findAll({
         order: [
-            ['createdAt', 'ASC'],
+            ['createdAt', ctx.query.sort ? ctx.query.sort : 'ASC'],
             ['id', 'DESC']
         ],
+        limit: ctx.query.limit ? parseInt(ctx.query.limit) : null,
+        offset: ctx.query.offset ? parseInt(ctx.query.offset) : 0,
         attributes: ['id', 'title', 'content', 'userId']
     });
 
